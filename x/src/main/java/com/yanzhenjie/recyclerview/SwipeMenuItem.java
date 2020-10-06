@@ -45,6 +45,19 @@ public class SwipeMenuItem {
     private int height = -2;
     private int weight = 0;
 
+    /**
+     * left, top, right, bottom
+     */
+    private int[] margins;
+
+    /**
+     * pos 0 => width
+     * pos 1 => height
+     */
+    private int[] imageViewSize;
+
+    private float elevation;
+
     public SwipeMenuItem(Context context) {
         mContext = context;
     }
@@ -162,5 +175,32 @@ public class SwipeMenuItem {
 
     public int getWeight() {
         return weight;
+    }
+
+    public int[] getMargins() {
+        return margins;
+    }
+
+    public SwipeMenuItem setMargins(int[] margins) {
+        this.margins = margins;
+        return this;
+    }
+
+    public int[] getImageViewSize() {
+        return imageViewSize;
+    }
+
+    public SwipeMenuItem setImageViewSize(int[] widthAndHeight) {
+        this.imageViewSize = widthAndHeight;
+        return this;
+    }
+
+    public float getElevation() {
+        return elevation;
+    }
+
+    public SwipeMenuItem setElevation(float elevation) {
+        this.elevation = elevation;
+        return this;
     }
 }

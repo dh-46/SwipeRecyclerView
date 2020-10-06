@@ -18,11 +18,13 @@ package com.yanzhenjie.recyclerview;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,7 +57,7 @@ public class SwipeMenuView extends LinearLayout implements View.OnClickListener 
     }
 
     public void createMenu(RecyclerView.ViewHolder viewHolder, SwipeMenu swipeMenu, Controller controller,
-        int direction, OnItemMenuClickListener itemClickListener) {
+                           int direction, OnItemMenuClickListener itemClickListener) {
         removeAllViews();
 
         this.mViewHolder = viewHolder;
@@ -72,6 +74,22 @@ public class SwipeMenuView extends LinearLayout implements View.OnClickListener 
             parent.setGravity(Gravity.CENTER);
             parent.setOrientation(VERTICAL);
             parent.setLayoutParams(params);
+
+            // Item Margins
+            int[] margins = item.getMargins();
+            if (margins != null) {
+                params.setMargins(margins[0], margins[1], margins[2], margins[3]);
+            }
+
+            // 陰影效果/卡片感
+            if (item.getElevation() != 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    parent.setElevation(item.getElevation());
+                } else {
+                    ViewCompat.setElevation(parent, item.getElevation());
+                }
+            }
+
             ViewCompat.setBackground(parent, item.getBackground());
             parent.setOnClickListener(this);
             addView(parent);
@@ -81,11 +99,21 @@ public class SwipeMenuView extends LinearLayout implements View.OnClickListener 
 
             if (item.getImage() != null) {
                 ImageView iv = createIcon(item);
+
+                // 自訂圖片寬高
+                if (item.getImageViewSize() != null) {
+                    LayoutParams layoutParams = new LayoutParams(item.getImageViewSize()[0], item.getImageViewSize()[1]);
+                    layoutParams.setMargins(8,8,8,0);
+                    iv.setLayoutParams(layoutParams);
+                }
                 parent.addView(iv);
             }
 
             if (!TextUtils.isEmpty(item.getText())) {
                 TextView tv = createTitle(item);
+                LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(8,8,8,8);
+                tv.setLayoutParams(layoutParams);
                 parent.addView(tv);
             }
         }
@@ -94,7 +122,7 @@ public class SwipeMenuView extends LinearLayout implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (mItemClickListener != null) {
-            mItemClickListener.onItemClick((SwipeMenuBridge)v.getTag(), mViewHolder.getAdapterPosition());
+            mItemClickListener.onItemClick((SwipeMenuBridge) v.getTag(), mViewHolder.getAdapterPosition());
         }
     }
 

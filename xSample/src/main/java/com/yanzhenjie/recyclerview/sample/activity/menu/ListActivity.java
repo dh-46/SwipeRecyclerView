@@ -66,26 +66,30 @@ public class ListActivity extends BaseActivity {
             // 添加左侧的，如果不添加，则左侧不会出现菜单。
             {
                 SwipeMenuItem addItem = new SwipeMenuItem(ListActivity.this).setBackground(R.drawable.selector_green)
-                    .setImage(R.drawable.ic_action_add)
-                    .setWidth(width)
-                    .setHeight(height);
+                        .setImage(R.drawable.ic_action_add)
+                        .setWidth(width)
+                        .setHeight(height);
                 swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
 
                 SwipeMenuItem closeItem = new SwipeMenuItem(ListActivity.this).setBackground(R.drawable.selector_red)
-                    .setImage(R.drawable.ic_action_close)
-                    .setWidth(width)
-                    .setHeight(height);
+                        .setImage(R.drawable.ic_action_close)
+                        .setWidth(width)
+                        .setHeight(height);
                 swipeLeftMenu.addMenuItem(closeItem); // 添加菜单到左侧。
             }
 
             // 添加右侧的，如果不添加，则右侧不会出现菜单。
+            int[] margins = new int[]{10, 10, 10, 10};
             {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(ListActivity.this).setBackground(R.drawable.selector_red)
-                    .setImage(R.drawable.ic_action_delete)
-                    .setText("删除")
-                    .setTextColor(Color.WHITE)
-                    .setWidth(width)
-                    .setHeight(height);
+                        .setImage(R.drawable.ic_action_delete)
+                        .setText("删除")
+                        .setTextColor(Color.WHITE)
+                        .setWidth(width)
+                        .setHeight(height)
+                        .setMargins(margins) // Item margin
+                        .setImageViewSize(new int[]{70, 70}) // icon 大小
+                        .setElevation(4); // 陰影效果
                 swipeRightMenu.addMenuItem(deleteItem);// 添加菜单到右侧。
 
                 SwipeMenuItem addItem = new SwipeMenuItem(ListActivity.this).setBackground(R.drawable.selector_green)
@@ -111,10 +115,10 @@ public class ListActivity extends BaseActivity {
 
             if (direction == SwipeRecyclerView.RIGHT_DIRECTION) {
                 Toast.makeText(ListActivity.this, "list第" + position + "; 右侧菜单第" + menuPosition, Toast.LENGTH_SHORT)
-                    .show();
+                        .show();
             } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
                 Toast.makeText(ListActivity.this, "list第" + position + "; 左侧菜单第" + menuPosition, Toast.LENGTH_SHORT)
-                    .show();
+                        .show();
             }
         }
     };
